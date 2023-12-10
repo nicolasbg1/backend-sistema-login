@@ -8,6 +8,6 @@ userRouter.post('/create', new UserController().create);
 userRouter.post('/auth', new UserController().login);
 
 userRouter.use(auth);
-userRouter.get('/getproducts', new UserController().getProducts);
+userRouter.get('/getprofile', new UserController().getProfile);
 
 export { userRouter };

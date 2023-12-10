@@ -1,19 +1,20 @@
-import 'express-async-errors';
-import cors from 'cors';
+// import cors from 'cors';
 import express, { Request, Response } from 'express';
+import 'express-async-errors';
 import { appRoutes } from './src/routes/routes';
 
 const app = express();
 app.use(express.json());
 
-const allowedOrigins = ['http://localhost:3000'];
-app.use(
-	cors({
-		origin: allowedOrigins,
-		methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-	}),
-);
+// const allowedOrigins = ['http://localhost:3000'];
+// app.use(
+// 	cors({
+// 		origin: allowedOrigins,
+// 		methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+// 	}),
+// );
 app.use(express.urlencoded({ extended: true }));
+// app.use(cors());
 app.use(appRoutes);
 
 app.get('*', (req: Request, res: Response) => {
