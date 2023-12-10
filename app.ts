@@ -1,7 +1,10 @@
 // import cors from 'cors';
 import express, { Request, Response } from 'express';
 import 'express-async-errors';
+import { errorMiddleware } from './src/middlewares/error';
 import { appRoutes } from './src/routes/routes';
+
+const port = 9000;
 
 const app = express();
 app.use(express.json());
@@ -21,7 +24,8 @@ app.get('*', (req: Request, res: Response) => {
 	res.send('Página não  encontrada');
 });
 
-const port = 9000;
+
+app.use(errorMiddleware);
 app.listen(port, () => {
 	console.log(`Serviço iniciado na porta ${port}`);
 });
