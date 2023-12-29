@@ -1,13 +1,17 @@
 // emailService.ts
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
+
 dotenv.config();
+
 const transporter = nodemailer.createTransport({
-	service: 'gmail',
+
+	host: "sandbox.smtp.mailtrap.io",
+	port: 2525,
 	auth: {
-		user: process.env.EMAIL_USER || 'seu-email@gmail.com',
-		pass: process.env.EMAIL_PASS || 'sua-senha',
-	},
+	  user: "5ed995ee2bffa2",
+	  pass: "74ee3b9dbef043"
+	}
 });
 
 export const sendPasswordResetEmail = async (to: string, resetLink: string) => {
@@ -17,6 +21,7 @@ export const sendPasswordResetEmail = async (to: string, resetLink: string) => {
 			to,
 			subject: 'Redefinição de Senha',
 			text: `Clique no seguinte link para redefinir sua senha: ${resetLink}`,
+			html: "<p>Testando.....</p>"
 		};
 
 		const result = await transporter.sendMail(mailOptions);
@@ -26,3 +31,4 @@ export const sendPasswordResetEmail = async (to: string, resetLink: string) => {
 		throw error;
 	}
 };
+ 

@@ -98,7 +98,7 @@ export class UserController {
 		  },
 		});
 	
-		const resetLink = `http://sua-api.com/resetar-senha?token=${resetToken}`;
+		const resetLink = `http:localhost:9000//newpassword?token=${resetToken}`;
 		await sendPasswordResetEmail(email, resetLink);
 	
 		res.json({ message: 'E-mail de redefinição de senha enviado com sucesso' });
