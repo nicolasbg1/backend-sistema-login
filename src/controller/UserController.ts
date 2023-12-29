@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { BadRequestError } from '../helpers/api-erros';
+import { sendPasswordResetEmail } from '../services/nodemailer';
 
 const prisma = new PrismaClient();
 
@@ -70,6 +71,39 @@ export class UserController {
 			token: token,
 		});
 	}
+
+	async forgotPassword(req: Request, res: Response) {
+		const { email } = req.body;
+	
+		const user = await prisma.user.findUnique({
+		  where: {
+				email: email,
+		  },
+		});
+	
+		if (!user) {
+		  throw new BadRequestError('E-mail não encontrado');
+		}
+	
+		const resetToken = jwt.sign({ userId: user.id }, process.env.JWT_PASS ?? '', {
+		  expiresIn: '1h', 
+		});
+	
+		// Salvar o token de redefinição de senha no banco de dados
+		await prisma.passwordResetToken.create({
+		  data: {
+				userId: user.id,
+				token: resetToken,
+				expiration: new Date(Date.now() + 3600000), // Token válido por 1 hora
+		  },
+		});
+	
+		const resetLink = `http://sua-api.com/resetar-senha?token=${resetToken}`;
+		await sendPasswordResetEmail(email, resetLink);
+	
+		res.json({ message: 'E-mail de redefinição de senha enviado com sucesso' });
+	  }
+	
 	
 
 	async getProfile(req: Request, res: Response) {
