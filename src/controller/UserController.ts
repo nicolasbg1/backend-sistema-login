@@ -108,6 +108,7 @@ export class UserController {
 
 	async getProfile(req: Request, res: Response) {
 
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-expect-error
 		const userId = req.user.id;
 
