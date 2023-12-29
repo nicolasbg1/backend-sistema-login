@@ -9,5 +9,6 @@ userRouter.post('/auth', new UserController().login);
 
 userRouter.use(auth);
 userRouter.get('/getprofile', new UserController().getProfile);
+userRouter.post('/newpassword', new UserController().forgotPassword);
 
 export { userRouter };
